@@ -1,1 +1,1 @@
-export const resolveSchema = data => data;
+export const resolveSchema = data => data
