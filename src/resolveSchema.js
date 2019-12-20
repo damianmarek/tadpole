@@ -1,23 +1,30 @@
 import _ from 'lodash'
 
-export const resolveSchema = (schema, data, propertyData) => {
+export const resolveSchema = (schema, data, passedPropertyData, passedPropertySchema) => {
   if (typeof schema === 'function') {
     return schema(data)
   }
 
   if (typeof data === 'object') {
-    const resolveData = propertyData || data
+    const objectData = passedPropertyData || data
+    const objectSchema = passedPropertySchema || schema
 
     const resolvedSchema = _.reduce(
-      schema,
+      objectSchema,
       (acc, propertySchema, propertyName) => ({
         ...acc,
-        [propertyName]: resolveSchema(propertySchema, resolveData, data[propertyName]),
+        [propertyName]:
+          resolveSchema(
+            propertySchema,
+            objectData,
+            objectData[propertyName],
+            propertySchema[propertyName],
+          ),
       }),
       {},
     )
 
-    return _.merge(resolvedSchema, data)
+    return _.merge(resolvedSchema, objectData)
   }
 
   return data
