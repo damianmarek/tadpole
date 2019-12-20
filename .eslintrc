@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
 
   "env": {
-    "mocha": true
+    "mocha": true,
+    "jest": true
   },
 
   "rules": {
