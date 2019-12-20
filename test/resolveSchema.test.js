@@ -1,9 +1,22 @@
 import { resolveSchema } from '../src/resolveSchema'
 
 describe('resolveSchema', () => {
-  it('should return same data', () => {
-    const data = { test: 'hello ' }
+  it('should return data with resolved function', () => {
+    const data = {
+      firstName: 'Damian',
+      lastName: 'Marek',
+    }
 
-    expect(resolveSchema(data)).toEqual(data)
+    const schema = {
+      fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
+    }
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData).toEqual({
+      firstName: 'Damian',
+      lastName: 'Marek',
+      fullName: 'Damian Marek',
+    })
   })
 })
