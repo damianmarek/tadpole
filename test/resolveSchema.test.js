@@ -161,4 +161,39 @@ describe('resolveSchema', () => {
       ],
     })
   })
+
+  it('should return data with resolved custom function for array', () => {
+    const data = [
+      {
+        id: 1,
+        name: 'first',
+      },
+      {
+        id: 2,
+        name: 'second',
+      },
+      {
+        id: 3,
+        name: 'third',
+      },
+    ]
+
+    const schema = Object.assign([{}], {
+      findById: items => id => items.filter(item => item.id === id)[0],
+      findByName: items => name => items.filter(item => item.name === name)[0],
+    })
+
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData.findById(2)).toEqual({
+      id: 2,
+      name: 'second',
+    })
+
+    expect(resolvedData.findByName('third')).toEqual({
+      id: 3,
+      name: 'third',
+    })
+  })
 })
