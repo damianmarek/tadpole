@@ -9,10 +9,21 @@ export const resolveSchema = (schema, data, passedPropertyData, passedPropertySc
   const objectSchema = passedPropertySchema || schema
 
   if (Array.isArray(objectData)) {
-    return objectData.map(element => resolveSchema(objectSchema[0], element))
+    const items = objectData.map(element => resolveSchema(objectSchema[0], element))
+
+    const enhanceFunctionKeys = _.filter(_.keys(objectSchema), item => item !== '0')
+
+    const resolvedFunctions = _.reduce(enhanceFunctionKeys, (acc, functionKey) => ({
+      ...acc,
+      [functionKey]: objectSchema[functionKey](items),
+    }), {})
+
+    const mergedItems = _.merge(items, resolvedFunctions)
+
+    return mergedItems
   }
 
-  if (typeof data === 'object') {
+  if (typeof objectData === 'object') {
     const resolvedSchema = _.reduce(
       objectSchema,
       (acc, propertySchema, propertyName) => ({
