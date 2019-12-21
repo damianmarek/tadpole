@@ -87,4 +87,78 @@ describe('resolveSchema', () => {
       },
     })
   })
+
+  it('should return data with resolved function in array', () => {
+    const data = [
+      {
+        firstName: 'Damian',
+        lastName: 'Marek',
+      },
+      {
+        firstName: 'Alan',
+        lastName: 'Turing',
+      },
+    ]
+
+    const PersonSchema = {
+      fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
+    }
+
+    const schema = [PersonSchema]
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData).toEqual([
+      {
+        firstName: 'Damian',
+        lastName: 'Marek',
+        fullName: 'Damian Marek',
+      },
+      {
+        firstName: 'Alan',
+        lastName: 'Turing',
+        fullName: 'Alan Turing',
+      },
+    ])
+  })
+
+  it('should return data with resolved function in nested array', () => {
+    const data = {
+      persons: [
+        {
+          firstName: 'Damian',
+          lastName: 'Marek',
+        },
+        {
+          firstName: 'Alan',
+          lastName: 'Turing',
+        },
+      ],
+    }
+
+    const PersonSchema = {
+      fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
+    }
+
+    const schema = {
+      persons: [PersonSchema],
+    }
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData).toEqual({
+      persons: [
+        {
+          firstName: 'Damian',
+          lastName: 'Marek',
+          fullName: 'Damian Marek',
+        },
+        {
+          firstName: 'Alan',
+          lastName: 'Turing',
+          fullName: 'Alan Turing',
+        },
+      ],
+    })
+  })
 })
