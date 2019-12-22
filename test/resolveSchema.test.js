@@ -196,4 +196,84 @@ describe('resolveSchema', () => {
       name: 'third',
     })
   })
+
+  it('should return data with resolved custom function for nested array', () => {
+    const data = {
+      entries: [
+        {
+          id: 1,
+          name: 'first',
+        },
+        {
+          id: 2,
+          name: 'second',
+        },
+        {
+          id: 3,
+          name: 'third',
+        },
+      ],
+    }
+
+    const schema = {
+      entries: Object.assign([{}], {
+        findById: items => id => items.filter(item => item.id === id)[0],
+        findByName: items => name => items.filter(item => item.name === name)[0],
+      }),
+    }
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData.entries.findById(2)).toEqual({
+      id: 2,
+      name: 'second',
+    })
+
+    expect(resolvedData.entries.findByName('third')).toEqual({
+      id: 3,
+      name: 'third',
+    })
+  })
+
+  it('should return data with resolved custom function using previously defined properties for nested array', () => {
+    const data = {
+      entries: [
+        {
+          id: 1,
+          name: 'first',
+          city: 'Warsaw',
+        },
+        {
+          id: 2,
+          name: 'second',
+          city: 'Berlin',
+        },
+        {
+          id: 3,
+          name: 'third',
+          city: 'Danzig',
+        },
+      ],
+    }
+
+    const EntrySchema = {
+      cityWithName: ({ city, name }) => `${city} ${name}`,
+    }
+
+    const schema = {
+      entries: Object.assign([EntrySchema], {
+        findByCityWithName: items => cityWithName =>
+          items.filter(item => item.cityWithName === cityWithName)[0],
+      }),
+    }
+
+    const resolvedData = resolveSchema(schema, data)
+
+    expect(resolvedData.entries.findByCityWithName('Berlin second')).toEqual({
+      id: 2,
+      name: 'second',
+      city: 'Berlin',
+      cityWithName: 'Berlin second',
+    })
+  })
 })

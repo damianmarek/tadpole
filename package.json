@@ -6,6 +6,7 @@
     "redux",
     "react"
   ],
+  "scope": "@damianmarek",
   "license": "MIT",
   "author": "Damian Marek",
   "main": "lib/index.js",

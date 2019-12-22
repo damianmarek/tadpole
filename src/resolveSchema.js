@@ -33,7 +33,9 @@ export const resolveSchema = (schema, data, passedPropertyData, passedPropertySc
             propertySchema,
             objectData,
             objectData[propertyName],
-            propertySchema[propertyName],
+            // TODO: investigate why we need to have this isArray check
+            // maybe it could be avoided
+            Array.isArray(propertySchema) ? propertySchema : propertySchema[propertyName],
           ),
       }),
       {},
