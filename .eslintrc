@@ -13,6 +13,7 @@
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
     "import/extensions": 0,
-    "no-multi-spaces": 0
+    "no-multi-spaces": 0,
+    "semi": ["error", "never"]
   }
 }

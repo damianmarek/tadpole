@@ -1,5 +1,5 @@
-import { resolveSchema } from './resolveSchema';
+import { resolveSchema } from './resolveSchema'
 
 export default {
   resolveSchema,
-};
+}
