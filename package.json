@@ -1,12 +1,11 @@
 {
-  "name": "tadpole",
+  "name": "@damianmarek/tadpole",
   "version": "0.0.1",
   "description": "",
   "keywords": [
     "redux",
     "react"
   ],
-  "scope": "@damianmarek",
   "license": "MIT",
   "author": "Damian Marek",
   "main": "lib/index.js",
