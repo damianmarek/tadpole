@@ -1,6 +1,6 @@
 {
   "name": "@damianmarek/tadpole",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "keywords": [
     "redux",
@@ -9,6 +9,10 @@
   "license": "MIT",
   "author": "Damian Marek",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/damianmarek/tadpole.git"
+  },
   "scripts": {
     "clean": "rimraf ./coverage ./lib",
     "dev": "cross-env NODE_ENV=development rollup -c -o lib/index.js",
